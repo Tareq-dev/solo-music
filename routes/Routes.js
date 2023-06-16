@@ -21,13 +21,13 @@ const path = require("path");
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    if (!fs.existsSync("http://localhost:3000/public")) {
+    if (!fs.existsSync("public")) {
       fs.mkdirSync("public");
     }
-    if (!fs.existsSync("http://localhost:3000/public/audios")) {
-      fs.mkdirSync("http://localhost:3000/public/audios");
+    if (!fs.existsSync("public/audios")) {
+      fs.mkdirSync("public/audios");
     }
-    cb(null, "http://localhost:3000/public/audios");
+    cb(null, "public/audios");
   },
   filename: function (req, file, cb) {
     cb(null, Date.now() + file.originalname);

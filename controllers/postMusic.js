@@ -37,9 +37,9 @@ module.exports.postMusics = async (req, res) => {
     email: body.email,
   };
   console.log(addedMusic);
-  // const db = await connect();
-  // const result = await db.collection("music").insertOne(addedMusic);
-  // if (result) {
-  //   return res.send({ success: true, result });
-  // }
+  const db = await connect();
+  const result = await db.collection("music").insertOne(addedMusic);
+  if (result) {
+    return res.send({ success: true, result });
+  }
 };

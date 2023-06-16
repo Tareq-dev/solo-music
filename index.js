@@ -6,7 +6,7 @@ const path = require("path");
 
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: "https://solo-music-six.vercel.app",
     credentials: true,
   })
 );
@@ -14,7 +14,7 @@ const port = process.env.PORT || 5000;
 require("dotenv").config();
 
 const Router = require("./routes/Routes.js");
-const { connect } = require("./utils/dbConfig.js");
+const { connect, baseUrl } = require("./utils/dbConfig.js");
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 connect();

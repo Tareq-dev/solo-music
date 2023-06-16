@@ -12,13 +12,12 @@ export default function Admin() {
   const [user] = useAuthState(auth);
   const email = user?.email;
   const baseUrl = process.env.REACT_APP_BASE_URL;
-
   const url = `${baseUrl}/music/${email}`;
   useEffect(() => {
     fetch(url)
       .then((res) => res.json())
       .then((data) => setMusic(data));
-  }, [music]);
+  }, [url]);
 
   const handleDelete = async (id) => {
     const swalWithBootstrapButtons = Swal.mixin({

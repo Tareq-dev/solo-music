@@ -35,20 +35,20 @@ export default function AudioControl({ audio }) {
     }
   }, [isPlaying, duration]);
 
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     if (sound) {
-  //       setSeconds(sound.seek([]));
-  //       const min = Math.floor(sound.seek([]) / 60);
-  //       const sec = Math.floor(sound.seek([]) % 60);
-  //       setCurrTime({
-  //         min,
-  //         sec,
-  //       });
-  //     }
-  //   }, 1000);
-  //   return () => clearInterval(interval);
-  // }, []);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (sound) {
+        setSeconds(sound.seek([]));
+        const min = Math.floor(sound.seek([]) / 60);
+        const sec = Math.floor(sound.seek([]) % 60);
+        setCurrTime({
+          min,
+          sec,
+        });
+      }
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
 
   const playingButton = () => {
     if (isPlaying) {

@@ -16,7 +16,7 @@ connect();
 app.use("/music", Router);
 
 app.get("/", (req, res) => {
-  res.send("Running Form backend");
+  res.send("Running Form solo music");
 });
 app.listen(port, () => {
   console.log("Listening to port", port);

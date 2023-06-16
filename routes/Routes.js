@@ -21,13 +21,13 @@ const path = require("path");
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    if (!fs.existsSync("https://solo-music-six.vercel.app/public")) {
+    if (!fs.existsSync("http://localhost:3000/public")) {
       fs.mkdirSync("public");
     }
-    if (!fs.existsSync("https://solo-music-six.vercel.app/public/audios")) {
-      fs.mkdirSync("https://solo-music-six.vercel.app/public/audios");
+    if (!fs.existsSync("http://localhost:3000/public/audios")) {
+      fs.mkdirSync("http://localhost:3000/public/audios");
     }
-    cb(null, "https://solo-music-six.vercel.app/public/audios");
+    cb(null, "http://localhost:3000/public/audios");
   },
   filename: function (req, file, cb) {
     cb(null, Date.now() + file.originalname);

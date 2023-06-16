@@ -7,8 +7,10 @@ import { IconContext } from "react-icons";
 import playPic from "../assets/image/music.png";
 
 export default function MusicCard({ audio, handleDelete }) {
-  const url = "http://localhost:5000";
-  const audioSrc = `${url}/${audio.path}`;
+  // const url = "http://localhost:5000";
+
+  const baseUrl = process.env.REACT_APP_BASE_URL;
+  const audioSrc = `${baseUrl}/${audio.path}`;
   const [isPlaying, setIsPlaying] = useState(false);
   const [time, setTime] = useState({
     min: "",

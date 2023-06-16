@@ -11,8 +11,9 @@ export default function Admin() {
   const [music, setMusic] = useState([]);
   const [user] = useAuthState(auth);
   const email = user?.email;
+  const baseUrl = process.env.REACT_APP_BASE_URL;
 
-  const url = `http://localhost:5000/music/${email}`;
+  const url = `${baseUrl}/music/${email}`;
   useEffect(() => {
     fetch(url)
       .then((res) => res.json())
@@ -45,7 +46,7 @@ export default function Admin() {
             "Your file has been deleted.",
             "success"
           );
-          const res = fetch(`http://localhost:5000/music/${id}`, {
+          const res = fetch(`${baseUrl}/music/${id}`, {
             method: "DELETE",
           });
           const data = res.json();

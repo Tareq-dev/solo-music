@@ -4,9 +4,11 @@ import { AiFillPlayCircle, AiFillPauseCircle } from "react-icons/ai";
 import { BiSkipNext, BiSkipPrevious } from "react-icons/bi";
 import { IconContext } from "react-icons";
 import playPic from "../assets/image/music.png";
+
 export default function AudioControl({ audio }) {
-  const url = "http://localhost:5000";
-  const audioSrc = `${url}/${audio.path}`;
+  const baseUrl = process.env.REACT_APP_BASE_URL;
+
+  const audioSrc = `${baseUrl}/${audio.path}`;
   const [isPlaying, setIsPlaying] = useState(false);
   const [time, setTime] = useState({
     min: "",

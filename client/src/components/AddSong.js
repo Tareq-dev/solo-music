@@ -13,8 +13,8 @@ export default function AddSong() {
   const [errors, setErrors] = useState(false);
   const [user] = useAuthState(auth);
   const email = user?.email;
-  const url = process.env.REACT_APP_BASE_URL;
-
+  const baseUrl = process.env.REACT_APP_BASE_URL;
+   
   const handleAddSong = async (e) => {
     e.preventDefault();
     if (songName.length === 0 || artist.length === 0 || file.length === 0) {
@@ -28,11 +28,10 @@ export default function AddSong() {
         formData.append("artist", artist);
         formData.append("file", file);
         formData.append("email", email);
-        //https://solo-music-two.vercel.app/
-        // http://localhost:5000
+    
         try {
           const data = await axios
-            .post("http://localhost:5000/music/upload_music", formData)
+            .post(`${baseUrl}/music/upload_music`, formData)
             .then((res) => {
               if (res.status === 200) {
                 toast.success("Added Music!", {

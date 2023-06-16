@@ -5,7 +5,8 @@ import { BiSkipNext, BiSkipPrevious } from "react-icons/bi";
 import { IconContext } from "react-icons";
 import playPic from "../assets/image/music.png";
 export default function AudioControl({ audio }) {
-  const audioSrc = `../../upload/${audio.audio}`;
+  const url = "http://localhost:5000";
+  const audioSrc = `${url}/${audio.path}`;
   const [isPlaying, setIsPlaying] = useState(false);
   const [time, setTime] = useState({
     min: "",
@@ -30,22 +31,22 @@ export default function AudioControl({ audio }) {
         sec: secRemain,
       });
     }
-  }, [isPlaying]);
+  }, [isPlaying, duration]);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (sound) {
-        setSeconds(sound.seek([]));
-        const min = Math.floor(sound.seek([]) / 60);
-        const sec = Math.floor(sound.seek([]) % 60);
-        setCurrTime({
-          min,
-          sec,
-        });
-      }
-    }, 1000);
-    return () => clearInterval(interval);
-  }, [sound]);
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     if (sound) {
+  //       setSeconds(sound.seek([]));
+  //       const min = Math.floor(sound.seek([]) / 60);
+  //       const sec = Math.floor(sound.seek([]) % 60);
+  //       setCurrTime({
+  //         min,
+  //         sec,
+  //       });
+  //     }
+  //   }, 1000);
+  //   return () => clearInterval(interval);
+  // }, []);
 
   const playingButton = () => {
     if (isPlaying) {
@@ -65,7 +66,9 @@ export default function AudioControl({ audio }) {
       </div>
       <div>
         <h3 className="text-center py-1 text-gray-300">{audio.artist}</h3>
-        <p className="text-center py-1 text-gray-300 ">{audio.title}</p>
+        <p className="text-center text-white animation bg-slate-500 mx-1 rounded-md">
+          {audio.title.slice(0, 30)}
+        </p>
       </div>
       <div>
         <div className="time">

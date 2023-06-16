@@ -7,17 +7,6 @@ const { getMusicByEmail } = require("../controllers/getMusicByEmail.js");
 const multer = require("multer");
 const fs = require("fs");
 const path = require("path");
-// const storage = require("../lib/multer.js");
-
-// const storage = multer.diskStorage({
-//   destination: function (req, file, cb) {
-//     cb(null, "https://solo-music.vercel.app/upload");
-//   },
-//   filename: function (req, file, cb) {
-//     cb(null, Date.now() + file.originalname);
-//   },
-// });
-// const upload = multer({ storage });
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -38,7 +27,6 @@ const upload = multer({
   storage,
   fileFilter: (req, file, cb) => {
     let ext = path.extname(file.originalname);
-    console.log(ext);
     if (
       ext !== ".mp3"
       //   ext !== ".mvk" &&
@@ -46,7 +34,8 @@ const upload = multer({
       //   ext !== ".jpg" &&
       //   ext !== ".png"
     ) {
-      cb(new Error("File type is not supported"), false);
+      const error = new Error("File type is not supported");
+      cb(error, false);
       return;
     }
     cb(null, true);

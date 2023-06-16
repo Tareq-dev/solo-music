@@ -5,24 +5,71 @@ import { ImEyePlus } from "react-icons/im";
 import { useAuthState } from "react-firebase-hooks/auth";
 import auth from "../firebse_auth";
 import MusicCard from "../components/MusicCard";
+import Swal from "sweetalert2";
 
 export default function Admin() {
   const [music, setMusic] = useState([]);
   const [user] = useAuthState(auth);
   const email = user?.email;
 
-  const url = `http://localhost:5000/${email}`;
+  const url = `http://localhost:5000/music/${email}`;
   useEffect(() => {
     fetch(url)
       .then((res) => res.json())
       .then((data) => setMusic(data));
-  }, []);
+  }, [music]);
 
+  const handleDelete = async (id) => {
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: "btn btn-success",
+        cancelButton: "btn btn-danger",
+      },
+      buttonsStyling: false,
+    });
+
+    swalWithBootstrapButtons
+      .fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Yes, delete it!",
+        cancelButtonText: "No, cancel!",
+        reverseButtons: true,
+      })
+      .then((result) => {
+        if (result.isConfirmed) {
+          swalWithBootstrapButtons.fire(
+            "Deleted!",
+            "Your file has been deleted.",
+            "success"
+          );
+          const res = fetch(`http://localhost:5000/music/${id}`, {
+            method: "DELETE",
+          });
+          const data = res.json();
+          if (data.deletedCount) {
+            const remaining = music.filter((a) => a._id === id);
+            setMusic(remaining);
+          }
+        } else if (
+          /* Read more about handling dismissals below */
+          result.dismiss === Swal.DismissReason.cancel
+        ) {
+          swalWithBootstrapButtons.fire(
+            "Cancelled",
+            "Your imaginary file is safe :)",
+            "error"
+          );
+        }
+      });
+  };
   return (
     <div className="bg-white">
       <div className="grid grid-cols-1 md:grid-cols-3 place-items-center justify-items-center gap-3 mx-4 py-8">
         <div className="h-20 w-full border rounded-lg bg-slate-100 px-10">
-          <div className="flex pt-4 justify-between items-center px-16">
+          <div className="flex pt-4 justify-between items-center md:px-16">
             <div className="flex justify-center items-center">
               <GiMusicSpell className="text-red-500" size={34} />
             </div>
@@ -35,7 +82,7 @@ export default function Admin() {
           </div>
         </div>
         <div className="h-20 w-full border rounded-lg bg-slate-100 px-10">
-          <div className="flex pt-4 justify-between items-center px-16">
+          <div className="flex pt-4 justify-between items-center md:px-16">
             <div className="flex justify-center items-center">
               <AiOutlinePlayCircle className="text-red-500" size={34} />
             </div>
@@ -48,7 +95,7 @@ export default function Admin() {
           </div>
         </div>
         <div className="h-20 w-full border rounded-lg bg-slate-100 px-10">
-          <div className="flex pt-4 justify-between items-center px-16">
+          <div className="flex pt-4 justify-between items-center md:px-16">
             <div className="flex justify-center items-center">
               <ImEyePlus className="text-red-500" size={34} />
             </div>
@@ -69,7 +116,11 @@ export default function Admin() {
 
         <div className="mt-6 grid md:grid-cols-4 md:gap-4">
           {music.map((audio) => (
-            <MusicCard audio={audio} />
+            <MusicCard
+              key={audio._id}
+              handleDelete={handleDelete}
+              audio={audio}
+            />
           ))}
         </div>
       </div>

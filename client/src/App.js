@@ -14,7 +14,7 @@ import AllMusic from "./components/AllMusic";
 
 function App() {
   return (
-    <div className="container mx-0 max-w-full">
+    <div className="container mx-auto max-w-full">
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />

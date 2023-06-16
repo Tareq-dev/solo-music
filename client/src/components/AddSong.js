@@ -3,57 +3,71 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import auth from "../firebse_auth";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function AddSong() {
   const [songName, setSongName] = useState("");
   const [artist, setArtist] = useState("");
   const [file, setFile] = useState("");
+  const navigate = useNavigate();
   const [errors, setErrors] = useState(false);
   const [user] = useAuthState(auth);
   const email = user?.email;
   const url = process.env.REACT_APP_BASE_URL;
+
   const handleAddSong = async (e) => {
     e.preventDefault();
     if (songName.length === 0 || artist.length === 0 || file.length === 0) {
       setErrors(true);
     }
-    if (songName && artist && file) {
-      // const data = {
-      //   songName,
-      //   artist,
-      //   file,
-      //   email,
-      // };
-      // console.log(data);
-      const formData = new FormData();
-      formData.append("title", songName);
-      formData.append("artist", artist);
-      formData.append("file", file);
-      formData.append("email", email);
-//https://solo-music-two.vercel.app/
-// http://localhost:5000
-      try {
-        await axios
-          .post("http://localhost:5000/music/upload_music", formData)
-          .then((response) => {
-            if (response.status === 200) {
-              toast.success("Added Music!", {
-                position: "top-center",
-                autoClose: 3000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-              });
-            }
-            e.target.reset();
-            return false;
-          });
-      } catch (error) {
-        console.log(error);
+
+    if (file?.name?.endsWith(".mp3")) {
+      if (songName && artist && file) {
+        const formData = new FormData();
+        formData.append("title", songName);
+        formData.append("artist", artist);
+        formData.append("file", file);
+        formData.append("email", email);
+        //https://solo-music-two.vercel.app/
+        // http://localhost:5000
+        try {
+          const data = await axios
+            .post("http://localhost:5000/music/upload_music", formData)
+            .then((res) => {
+              if (res.status === 200) {
+                toast.success("Added Music!", {
+                  position: "top-center",
+                  autoClose: 3000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  theme: "light",
+                });
+                if (res.status) {
+                  navigate("/dashboard");
+                }
+              }
+              e.target.reset();
+              return false;
+            });
+          console.log(data);
+        } catch (error) {
+          console.log(error);
+        }
       }
+    } else {
+      toast.error("Please provide mp3 only", {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     }
   };
   return (

@@ -6,8 +6,9 @@ import { BiSkipNext, BiSkipPrevious } from "react-icons/bi";
 import { IconContext } from "react-icons";
 import playPic from "../assets/image/music.png";
 
-export default function MusicCard({ audio }) {
-  const audioSrc = `../../upload/${audio.audio}`;
+export default function MusicCard({ audio, handleDelete }) {
+  const url = "http://localhost:5000";
+  const audioSrc = `${url}/${audio.path}`;
   const [isPlaying, setIsPlaying] = useState(false);
   const [time, setTime] = useState({
     min: "",
@@ -58,18 +59,15 @@ export default function MusicCard({ audio }) {
       setIsPlaying(true);
     }
   };
-  // const handleDelete = (id) => {
-  //   console.log(id);
-  // };
 
   return (
     <div className="component-music py-2 w-full relative">
-      {/* <div
+      <div
         onClick={() => handleDelete(audio._id)}
         className="absolute right-3 top-3 md:right-1 md:top-1 bg-red-500 rounded-full w-8 h-8 flex  justify-center items-center"
       >
         <RiDeleteBin6Line size={20} />
-      </div> */}
+      </div>
       <div className="flex justify-center px-4">
         <img className="rounded-xl h-[90px]  px-6" src={playPic} />
       </div>
@@ -92,7 +90,7 @@ export default function MusicCard({ audio }) {
             min="0"
             max={duration / 1000}
             default="0"
-            value={seconds}
+            // value={seconds}
             className="timeline w-full "
             onChange={(e) => {
               sound.seek([e.target.value]);

@@ -37,7 +37,7 @@ function Navbar() {
             className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-[#0a183d] rounded-box w-52"
           >
             <li className="font-semibold">
-              <Link to="/dashboard">Dashboard</Link>
+              {user && <Link to="/dashboard">Dashboard</Link>}
             </li>
             <li className="font-semibold">
               {user ? (
@@ -65,31 +65,33 @@ function Navbar() {
           <span className="text-red-500">Solo</span> Music
         </Link>
       </div>
-      <div className="navbar-end md:hidden">
-        <label
-          htmlFor="my-drawer-2"
-          className=" px-2 py-1 font-bold rounded-xl shadow-md drawer-button lg:hidden"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-5 w-5"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
+      {user && (
+        <div className="navbar-end md:hidden">
+          <label
+            htmlFor="my-drawer-2"
+            className=" px-2 py-1 font-bold rounded-xl shadow-md drawer-button lg:hidden"
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M4 6h16M4 12h8m-8 6h16"
-            />
-          </svg>
-        </label>
-      </div>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-5 w-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M4 6h16M4 12h8m-8 6h16"
+              />
+            </svg>
+          </label>
+        </div>
+      )}
       <div className="navbar-end hidden lg:flex">
         <ul className="menu menu-horizontal px-1">
           <li className="font-semibold">
-            <Link to="/dashboard">Dashboard</Link>
+            {user && <Link to="/dashboard">Dashboard</Link>}
           </li>
           <li className="font-semibold">
             {user ? (
@@ -104,6 +106,19 @@ function Navbar() {
             <li className="text-red-400 font-semibold">
               <Link to="/signup">Create an account</Link>
             </li>
+          )}
+          {user && (
+            <div className="avatar online mt-1 ml-4">
+              <div className="w-10 h-10 rounded-full border-2 border-white  ">
+                <img
+                  src={
+                    user?.photoURL
+                      ? user?.photoURL
+                      : "https://cdn-icons-png.flaticon.com/512/219/219983.png?w=740&t=st=1686912318~exp=1686912918~hmac=ce2a85c36333d701149bfe27eb982ef94dd3df76df04c395cd070148b81fd0a2"
+                  }
+                />
+              </div>
+            </div>
           )}
         </ul>
       </div>
